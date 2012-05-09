@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/webViewTopBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/schoolColorTwo"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/topBarCookieTrail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="@string/cookietrail"
+            android:textColor="@color/schoolColorOne" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tempParentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/webViewTopBar"
+        android:background="@color/schoolColorOne"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/subscribeFormWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/subscribePhoneNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phonenumber"
+                android:textColor="@color/schoolColorTwo" />
+
+            <EditText
+                android:id="@+id/subscribePhoneNumberEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscribePhoneNumberLabel"
+                android:hint="@string/phonenumber"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/subscribeEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscribePhoneNumberEditText"
+                android:text="@string/email"
+                android:textColor="@color/schoolColorTwo" />
+
+            <EditText
+                android:id="@+id/subscribeEmailEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscribeEmailLabel"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <Button
+                android:id="@+id/subscribeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subscribeEmailEditText"
+                android:layout_centerHorizontal="true"
+                android:text="@string/subscribe" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cornerRadius">8dp</dimen> 
+    <dimen name="tabSpaceTop">4dp</dimen>
+    <dimen name="tabSpace">0dp</dimen>
+    <dimen name="tabSpacePlus1">3dp</dimen>
+    <dimen name="tabSpaceBottomLine">36sp</dimen>
+    <dimen name="tabSpaceUnselectedTop">6sp</dimen> 
+    <dimen name="tabRoundedCorner">10dp</dimen>
+    <dimen name="translateTextBoxRoundedCorner">10dp</dimen>
+    <dimen name="translateTextButtonRoundedCorner">10dp</dimen>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="roundedListMargin">8dp</dimen>
+    <dimen name="translateStrokeWidth">2dp</dimen>
+   
+</resources>  

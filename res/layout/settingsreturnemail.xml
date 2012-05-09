@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" >
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_gradient_background" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    -->
+
+
+    <!-- Dummy layout to grab initial focus -->
+    <LinearLayout
+        android:id="@+id/dummyLinearLayoutTop"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_gradient_background" >
+
+        <Button
+            android:id="@+id/hiddenloginbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_red_gradient_background"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+                <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bodyholder"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/titlelayoutholder"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/returnemailtexttitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titlelayoutholder"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="6dp"
+            android:text="@string/returnemailtitle"
+            android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutPhoneNumberEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/returnemailtexttitle"
+                android:layout_margin="5dp" >
+
+                <EditText
+                    android:id="@+id/returnemailedittext"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/roundable_edit_text"
+                    android:hint="@string/noreturnemail"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:textSize="20dp" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/clearreturnemail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/clear"
+                    android:padding="10dp"
+                    android:visibility="visible" >
+                </ImageButton>
+            </RelativeLayout>
+
+        <Button
+            android:id="@+id/changereturnemailbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayoutPhoneNumberEditText"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="6dp"
+            android:background="@drawable/blue_gradient_background"
+            android:text="@string/change"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/setnullreturnemailbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/changereturnemailbutton"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="6dp"
+            android:background="@drawable/blue_gradient_background"
+            android:text="@string/setnullreturnemail"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</RelativeLayout>

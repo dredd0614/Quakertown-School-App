@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/light_grey_gradient_background" >
+
+    <RelativeLayout
+        android:id="@+id/relativelayoutaddphonenumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true" >
+
+        <TextView
+            android:id="@+id/addPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/addPhoneNumber"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayoutaddemailaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true" >
+
+        <TextView
+            android:id="@+id/addEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/addEmail"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</LinearLayout>

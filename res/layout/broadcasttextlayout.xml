@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" >
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_gradient_background" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    -->
+
+
+    <!-- Dummy layout to grab initial focus -->
+    <LinearLayout
+        android:id="@+id/dummyLinearLayoutTop"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_gradient_background" >
+
+        <Button
+            android:id="@+id/hiddenloginbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_red_gradient_background"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/settingsbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_blue_gradient_background"
+            android:text="@string/settings"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+  <!--  <ScrollView
+        android:id="@+id/broadcasttextscrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/titlelayoutholder" >-->
+
+        <RelativeLayout
+            android:id="@+id/bodyholder"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_below="@+id/titlelayoutholder" >
+
+            <TextView
+                android:id="@+id/broadcasttexttitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titlelayoutholder"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="6dp"
+                android:text="@string/broadcasttexttitle"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/broadcasttextedittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/broadcasttexttitle"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="6dp"
+                android:hint="@string/broadcasttesthint" />
+
+            <Button
+                android:id="@+id/broadcasttextbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/broadcasttextedittext"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="6dp"
+                android:background="@drawable/blue_gradient_background"
+                android:text="@string/broadcasttext"
+                android:textColor="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/relativelayoutsendtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/broadcasttextbutton"
+                android:layout_centerHorizontal="true" >
+
+                <TextView
+                    android:id="@+id/sendtexttitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/sendtexttogglebutton"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:text="@string/sendtext"
+                    android:textColor="@color/black" />
+
+                <ToggleButton
+                    android:id="@+id/sendtexttogglebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:layout_toRightOf="@+id/sendtexttitle" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayoutsendemail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativelayoutsendtext"
+                android:layout_centerHorizontal="true" >
+
+                <TextView
+                    android:id="@+id/sendemailtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/sendemailtogglebutton"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:text="@string/sendemail"
+                    android:textColor="@color/black" />
+
+                <ToggleButton
+                    android:id="@+id/sendemailtogglebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:layout_toRightOf="@+id/sendemailtitle" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayoutsendrobocall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativelayoutsendemail"
+                android:layout_centerHorizontal="true" >
+
+                <TextView
+                    android:id="@+id/sendrobocalltitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/sendrobocalltogglebutton"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:text="@string/sendrobocall"
+                    android:textColor="@color/black" />
+
+                <ToggleButton
+                    android:id="@+id/sendrobocalltogglebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:layout_toRightOf="@+id/sendrobocalltitle" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/returnEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/relativelayoutsendrobocall"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/returnemaillabel"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/returnEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativelayoutsendrobocall"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/returnEmailLabel"
+                android:text="@string/noreturnemail"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+  <!--  </ScrollView>-->
+
+</RelativeLayout>

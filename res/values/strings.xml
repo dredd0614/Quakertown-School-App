@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edulert">Edulert</string>
+    <string name="schoolname">Quakertown CSD</string>
+    <string name="testImage">TestGrabImage</string>
+    <string name="app_name">Quakertown</string>
+    <string name="cookietrail">Level 1 > Level 2 > Level 3</string>
+    <string name="actiontitle">Action Title</string>
+    <string name="userchannelactiontitle">Select Activity for Notification</string>
+    <string name="login">Login</string>
+    <string name="broadcasttexttitle">Text, Email and/or RoboCall Message</string>
+    <string name="broadcasttesthint">Enter text here for text message, email, or text-to-speech Robo-Calls.</string>
+    <string name="broadcasttext">Broadcast Text</string>
+    <string name="broadcasttextbuttontitle">Text, Email, and/or Robo-Call</string>
+    <string name="choosemessagetype">Choose Message Type</string>
+    <string name="broadcastrecordedvoicebuttontitle">Recorded Voice Robo-Call</string>
+    <string name="sendtext">Send Text</string>
+    <string name="sendemail">Send Email</string>
+    <string name="sendrobocall">Send Robo-Call</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="broadcastrobocall">Broadcast Robo-Call</string>
+    <string name="broadcastrecordvoicetitle">Record your voice for the Robo-Call</string>
+    <string name="maxsixtyseconds">(Maximum 60 seconds)</string>
+    <string name="password">Password:</string>
+    <string name="username">Username:</string>
+    <string name="updateapp">Update App</string>
+    <string name="aboutedulert">About Edulert</string>
+    <string name="settings">Settings</string>
+    <string name="phonenumber">Phone #:</string>
+    <string name="phone">phone</string>
+    <string name="value">value</string>
+    <string name="email">Email:</string>
+    <string name="submit">Submit</string>
+    <string name="textThisNumber">Text this number?</string>
+    <string name="callThisNumber">Call this number?</string>
+    <string name="addPhoneNumber">Add \nPhone Number</string>
+    <string name="addEmail">Add \nEmail</string>
+    <string name="addnewnumberandemailtitle">Add New Phone Number and Email</string>
+    <string name="phonenumbersandemailsactiontitle">Phone Numbers and Emails</string>
+    <string name="returnemaillabel">Return email setting: </string>
+    <string name="noreturnemail">(No return email)</string>
+    <string name="returnemailsetting">returnemailsetting</string>
+    <string name="returnemailtitle">Return Email Setting</string>
+    <string name="change">Change</string>
+    <string name="setnullreturnemail">Set "No Return Email"</string>
+
+    <!-- Notifications -->
+
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="unsubscribebody">You are now unsubscribed for texts and emails regarding this activity for all numbers.</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="masssubscribebody">You will now receive texts and emails regarding this activity for all numbers.</string>
+    <string name="solosubscribebody">You will now receive texts and emails regarding this activity.</string>
+    <string name="error">Error</string>
+    <string name="errorbody">Unable to subscribe that phone number.  Please check the number and try again.</string>
+
+    <!-- Menu Long Press Arrays -->
+    <string-array name="phoneNumberEmailAddressMenu">
+        <item>@string/edit</item>
+        <item>@string/delete</item>
+    </string-array>
+
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
+    <!-- Settings key-value pair names -->
+
+
+    <!-- General App Settings -->
+    <string name="JSONString">JSONString</string>
+    <string name="titleBar">titleBar</string>
+    <string name="titleBarRed">titleBarRed</string>
+    <string name="titleBarGreen">titleBarGreen</string>
+    <string name="titleBarBlue">titleBarBlue</string>
+    <string name="cellBackgroundRed">cellBackgroundRed</string>
+    <string name="cellBackgroundGreen">cellBackgroundGreen</string>
+    <string name="cellBackgroundBlue">cellBackgroundBlue</string>
+    <string name="cellTextRed">cellTextRed</string>
+    <string name="cellTextGreen">cellTextGreen</string>
+    <string name="cellTextBlue">cellTextBlue</string>
+    <string name="replyto">replyto</string>
+
+    <!-- Content Descriptions -->
+
+    <string name="shareDescription">Share Button</string>
+    <string name="forwardDescription">Forward Button</string>
+    <string name="backDescription">Back Button</string>
+    <string name="schoolActionIconDescription">School Logo</string>
+    <string name="settingsDescription">Settings Button</string>
+    <string name="arrowDescription">Arrow Button</string>
+    <string name="clearDescription">Clear Button</string>
+    <string name="rewindDescription">Rewind Button</string>
+    <string name="playDescription">Play Button</string>
+    <string name="stopDescription">Stop Button</string>
+    <string name="pauseDescription">Pause Button</string>
+
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/light_grey_gradient_background"
+    android:padding="10dp" >
+
+    <!-- android:background="@color/schoolColorTwo" -->
+
+    <CheckBox
+        android:id="@+id/listItemCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/notifycheckbox"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/listItemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/listItemCheckBox"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toLeftOf="@+id/listItemArrow"
+        android:layout_marginLeft="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="List Title Menu Option Thing"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <!-- android:textColor="@color/schoolColorOne" -->
+
+    <ImageView
+        android:id="@+id/listItemArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/chevronicon_grey" />
+
+</RelativeLayout>

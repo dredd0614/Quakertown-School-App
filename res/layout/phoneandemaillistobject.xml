@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/light_grey_gradient_background" >
+
+    <!-- android:background="@color/schoolColorTwo" -->
+
+    <CheckBox
+        android:id="@+id/listItemCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/notifycheckbox"
+        android:focusable="false"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/relativelayoutphonenumberemailaddress"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/listItemArrow"
+        android:layout_toRightOf="@+id/listItemCheckBox" >
+
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/value"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <!-- <TextView
+            android:id="@+id/emailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneNumber"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Email Address"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>-->
+    </RelativeLayout>
+
+    <!-- android:textColor="@color/schoolColorOne" -->
+
+    <ImageView
+        android:id="@+id/listItemArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/arrowDescription"
+        android:layout_centerVertical="true"
+        android:src="@drawable/chevronicon_grey" />
+
+</RelativeLayout>
