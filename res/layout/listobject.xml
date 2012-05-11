@@ -5,7 +5,10 @@
     android:background="@drawable/light_grey_gradient_background"
     android:padding="10dp" >
 
-    <!-- android:background="@color/schoolColorTwo" -->
+    <!--
+         android:background="@color/schoolColorTwo"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+    -->
 
     <CheckBox
         android:id="@+id/listItemCheckBox"
@@ -20,17 +23,17 @@
         android:id="@+id/listItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/listItemCheckBox"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toLeftOf="@+id/listItemArrow"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/listItemArrow"
+        android:layout_toRightOf="@+id/listItemCheckBox"
         android:ellipsize="end"
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:text="List Title Menu Option Thing"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <!-- android:textColor="@color/schoolColorOne" -->

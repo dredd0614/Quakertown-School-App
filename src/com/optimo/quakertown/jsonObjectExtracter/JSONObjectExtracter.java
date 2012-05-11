@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import android.os.Environment;
 import android.util.Log;
 
+import com.optimo.quakertown.asynctasks.AsyncTaskMainMenuGetImage;
 import com.optimo.quakertown.constants.Constants;
 import com.optimo.quakertown.objects.AppSettingsObject;
 import com.optimo.quakertown.objects.MenuObject;
@@ -31,6 +32,7 @@ public class JSONObjectExtracter {
 	public ArrayList<MenuObject> mArrayList = new ArrayList<MenuObject>();
 
 	public ArrayList<MenuObject> parseMainMenuJSONString(String menuList) throws JSONException{
+		Log.d("JSONString to parse:mainMenu",menuList);
 		JSONObject jsonObject = new JSONObject(menuList);
 		return parseMainMenuJSONObject(jsonObject);
 	}
@@ -52,9 +54,12 @@ public class JSONObjectExtracter {
 				File sdCard = Environment.getExternalStorageDirectory();
 				File doesFileExist = new File(sdCard.getAbsolutePath()+"/com.optimo.quakertown/images/"+m.getImageLink());
 				if (!doesFileExist.exists()) {
-					getImage(m.getImageLink());
+					new AsyncTaskMainMenuGetImage(this, m.getImageLink()).execute();
+					//getImage(m.getImageLink());
 				}
 			}catch(Exception e){
+				e.printStackTrace();
+				Log.d("SD card path","No Card");
 				m.setImageLink("");
 			}
 			m.setOrder(js.getInt("order"));
@@ -68,13 +73,19 @@ public class JSONObjectExtracter {
 				m.setChannel(js.getString("channel"));
 			}
 
-			Log.d("Key", key);
+		//	Log.d("Key", key);
 			menuObjectArrayList.add(m);
 		}
 		return menuObjectArrayList;
 	}
 	
+	public void finishedGettingImage(){
+		
+	}
+	
 	public ArrayList<SubscribeListObject> parseSubscriptionListJSONString(String subscriptionList) throws JSONException{
+		Log.d("JSONString to parse:subscription",subscriptionList);
+
 		JSONArray jsonArray = new JSONArray(subscriptionList);
 		return parseSubscriptionListJSONObject(jsonArray);
 	}
@@ -98,7 +109,7 @@ public class JSONObjectExtracter {
 		return subscribeList;
 	}
 	
-	private String getImage(String imageLink){
+	public static String getImage(String imageLink){
 
 		if(!imageLink.equals(""))
 		
@@ -157,6 +168,8 @@ public class JSONObjectExtracter {
 	}
 	
 	public ArrayList<NotificationListObject> parseNotificationJSONString(String menuList) throws JSONException{
+		Log.d("JSONString to parse:notification",menuList);
+
 		JSONObject jsonObject = new JSONObject(menuList);
 		return parseNotificationJSONObject(jsonObject);
 	}
@@ -181,6 +194,8 @@ public class JSONObjectExtracter {
 	}
 	
 	public AppSettingsObject parseSettingsJSONString(String settingsList) throws JSONException{
+		Log.d("JSONString to parse:settings",settingsList);
+
 		JSONObject jsonObject = new JSONObject(settingsList);
 		return parseSettingsJSONObject(jsonObject);
 	}
@@ -202,8 +217,8 @@ public class JSONObjectExtracter {
 			m.setCellTextBlue(jsonObject.getString("cellTextBlue"));
 			m.setReplyto(jsonObject.getString("replyto"));
 			m.setVersion(jsonObject.getString("version"));
-			//m.setLevel(jsonObject.getString("level"));
-			m.setLevel("2");
+			m.setLevel(jsonObject.getString("level"));
+			//m.setLevel("2");
 
 			//Log.d("Key", key);
 		

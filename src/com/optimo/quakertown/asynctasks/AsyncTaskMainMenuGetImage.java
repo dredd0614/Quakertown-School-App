@@ -18,6 +18,7 @@ import android.util.Log;
 import com.optimo.quakertown.SchoolAppListActivity;
 import com.optimo.quakertown.SchoolAppListActivityListView;
 import com.optimo.quakertown.constants.Constants;
+import com.optimo.quakertown.jsonObjectExtracter.JSONObjectExtracter;
 
 public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 	String TAG = "AsyncTaskMainMenuList";
@@ -25,12 +26,13 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 	//Should be changing to the splashScreen?
 	SchoolAppListActivity schoolAppListActivity;
 	SchoolAppListActivityListView schoolAppListActivityListView;
+	JSONObjectExtracter jSONObjectExtracter;
 	String id;
 	String imageLink;
 
 	ProgressDialog loader;
 
-	
+
 
 	public AsyncTaskMainMenuGetImage(SchoolAppListActivity schoolAppListActivity, String id, String imageLink){
 		this.schoolAppListActivity = schoolAppListActivity;
@@ -43,21 +45,28 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 		this.id = Constants.ACTIVE_ID;
 		this.imageLink = imageLink;
 	}
-	
+
 	public AsyncTaskMainMenuGetImage(SchoolAppListActivityListView schoolAppListActivityListView, String imageLink){
 		this.schoolAppListActivityListView = schoolAppListActivityListView;
 		this.id = Constants.ACTIVE_ID;
 		this.imageLink = imageLink;
 	}
 
+	public AsyncTaskMainMenuGetImage(JSONObjectExtracter jSONObjectExtracter, String imageLink){
+		this.jSONObjectExtracter = jSONObjectExtracter;
+		this.imageLink = imageLink;
+	}
+
 	protected void onPreExecute() {
-		
-		if(schoolAppListActivityListView!=null)
-			loader = new ProgressDialog(schoolAppListActivityListView);
-		else if(schoolAppListActivity!=null)
-			loader = new ProgressDialog(schoolAppListActivity);
-		loader.setMessage("Loading...");
-		loader.show();
+
+		if(jSONObjectExtracter==null){
+			if(schoolAppListActivityListView!=null)
+				loader = new ProgressDialog(schoolAppListActivityListView);
+			else if(schoolAppListActivity!=null)
+				loader = new ProgressDialog(schoolAppListActivity);
+			loader.setMessage("Loading...");
+			loader.show();
+		}
 	}
 
 	@Override
@@ -65,7 +74,7 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 		Log.d(TAG,"doInBackground");
 		try {
 
-			String urlBase = Constants.ROOT_SCHOOLAPP_URL + "img/"+id+"/"+imageLink;
+			String urlBase = Constants.ROOT_SCHOOLAPP_URL + "img/"+Constants.ACTIVE_ID+"/"+imageLink;
 
 
 			URL url = new URL(urlBase);
@@ -93,7 +102,7 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 
 
 			File file = new File("");
-			
+
 			if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 				File sdCard = Environment.getExternalStorageDirectory();
 				File dir = new File (sdCard.getAbsolutePath() + "/com.optimo.quakertown/images/");
@@ -103,9 +112,9 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 				f.write(baf.toByteArray());
 				f.close();
 			}else{
-					return "Need SD-Card for images";
+				return "Need SD-Card for images";
 			}
-			
+
 			Log.d("ImageManager", "download ready in"
 					+ ((System.currentTimeMillis() - startTime) / 1000)
 					+ " sec");
@@ -120,18 +129,23 @@ public class AsyncTaskMainMenuGetImage extends AsyncTask<Void, String, String> {
 	}
 
 	protected void onProgressUpdate(String... progress) {
-		loader.setMessage("Loading...");
+		//loader.setMessage("Loading...");
 	}
 
 	protected void onPostExecute(String result) {
-		loader.dismiss();
+	//	loader.dismiss();
 
 		Log.d(TAG,result);
 
+		if(jSONObjectExtracter==null){
+		
 		if(schoolAppListActivityListView!=null)
 			schoolAppListActivityListView.returnImageResult(result);
 		else if(schoolAppListActivity!=null)
 			schoolAppListActivity.returnImageResult(result);
+		}else{
+			jSONObjectExtracter.finishedGettingImage();
+		}
 
 	}
 

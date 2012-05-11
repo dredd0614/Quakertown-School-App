@@ -403,9 +403,11 @@ public class SchoolAppListActivity extends Activity{
 
 				if(tl!=null){
 					if(tr!=null){
-						tl.addView(tr);
+						if(tr.getParent()==null)
+							tl.addView(tr);
 					}
-					rl.addView(tl);
+					if(tl.getParent()==null)
+						rl.addView(tl);
 					tr = null;
 					tl = null;		
 					needNewRow = true;

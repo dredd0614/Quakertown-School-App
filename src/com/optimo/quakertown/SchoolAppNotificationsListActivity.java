@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -60,6 +61,7 @@ public class SchoolAppNotificationsListActivity extends ListActivity {
 	private SchoolAppChannelDBAdapter dbHelperChannel;
 
 	private static final String APP_SETTINGS_FILE = "AppSettingsFile";
+	private static final String NOTIFICATIONFILE = "AppNotificationFile";
 	private static String KEY = "c2dmPref";
 	private static String REGISTRATION_KEY = "registrationKey";
 
@@ -192,7 +194,9 @@ public class SchoolAppNotificationsListActivity extends ListActivity {
 			}
 		});
 
-		String notificationJSONString = getNotificationMenu();
+		settings = getSharedPreferences(NOTIFICATIONFILE, 0);
+
+		String notificationJSONString = settings.getString(this.getString(R.string.JSONString), "");
 
 
 		JSONObjectExtracter jsonOE = new JSONObjectExtracter();
@@ -470,43 +474,54 @@ public class SchoolAppNotificationsListActivity extends ListActivity {
 					@Override
 					public void onClick(View v) {
 
-						if(checkBox.isChecked()){
-							if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
-								settings = getSharedPreferences(KEY, 0);
-
-								String registration = settings.getString(REGISTRATION_KEY, "");
-								if(!registration.equals(""))
-									new AsyncTaskPushNotificationSubscribe(SchoolAppNotificationsListActivity.this, 
-											Constants.ACTIVE_ID, o, registration).execute();
+						if(Build.MODEL.equals("Kindle Fire")){
+							Toast.makeText(SchoolAppNotificationsListActivity.this, "Amazon's Kindle Fire does not support push notificatiosn at this time.", Toast.LENGTH_LONG).show();
+							if(checkBox.isChecked()){
+								checkBox.setChecked(false);
 							}else{
-								if(globalPhoneNumberList==null||globalPhoneNumberList.size()<1){
-									Toast.makeText(SchoolAppNotificationsListActivity.this, "You have no saved phone numbers or email addresses.", Toast.LENGTH_SHORT).show();
-									checkBox.setChecked(false);
-								}else{
-									new AsyncTaskPhoneNumberChannelSubscribe(SchoolAppNotificationsListActivity.this, 
-											Constants.ACTIVE_ID, o, globalPhoneNumberList).execute();
-								}
+								checkBox.setChecked(true);
 							}
+							
 						}else{
-							if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
-								settings = getSharedPreferences(KEY, 0);
 
-								String registration = settings.getString(REGISTRATION_KEY, "");
-								if(!registration.equals(""))
+							if(checkBox.isChecked()){
 
-									new AsyncTaskPushNotificationUnsubscribe(SchoolAppNotificationsListActivity.this, 
-											Constants.ACTIVE_ID, o, registration).execute();
-							}else{
-								if(globalPhoneNumberList==null||globalPhoneNumberList.size()<1){
-									Toast.makeText(SchoolAppNotificationsListActivity.this, "You have no saved phone numbers or email addresses.", Toast.LENGTH_SHORT).show();
-									checkBox.setChecked(false);
+								if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
+									settings = getSharedPreferences(KEY, 0);
+
+									String registration = settings.getString(REGISTRATION_KEY, "");
+									if(!registration.equals(""))
+										new AsyncTaskPushNotificationSubscribe(SchoolAppNotificationsListActivity.this, 
+												Constants.ACTIVE_ID, o, registration).execute();
 								}else{
-									new AsyncTaskPhoneNumberChannelUnsubscribe(SchoolAppNotificationsListActivity.this, 
-											Constants.ACTIVE_ID, o, globalPhoneNumberList).execute();
+									if(globalPhoneNumberList==null||globalPhoneNumberList.size()<1){
+										Toast.makeText(SchoolAppNotificationsListActivity.this, "You have no saved phone numbers or email addresses.", Toast.LENGTH_SHORT).show();
+										checkBox.setChecked(false);
+									}else{
+										new AsyncTaskPhoneNumberChannelSubscribe(SchoolAppNotificationsListActivity.this, 
+												Constants.ACTIVE_ID, o, globalPhoneNumberList).execute();
+									}
+								}
+							}else{
+								if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
+									settings = getSharedPreferences(KEY, 0);
+
+									String registration = settings.getString(REGISTRATION_KEY, "");
+									if(!registration.equals(""))
+
+										new AsyncTaskPushNotificationUnsubscribe(SchoolAppNotificationsListActivity.this, 
+												Constants.ACTIVE_ID, o, registration).execute();
+								}else{
+									if(globalPhoneNumberList==null||globalPhoneNumberList.size()<1){
+										Toast.makeText(SchoolAppNotificationsListActivity.this, "You have no saved phone numbers or email addresses.", Toast.LENGTH_SHORT).show();
+										checkBox.setChecked(false);
+									}else{
+										new AsyncTaskPhoneNumberChannelUnsubscribe(SchoolAppNotificationsListActivity.this, 
+												Constants.ACTIVE_ID, o, globalPhoneNumberList).execute();
+									}
 								}
 							}
 						}
-
 					}
 
 				});

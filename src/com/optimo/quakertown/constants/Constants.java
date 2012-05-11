@@ -5,6 +5,7 @@ public class Constants {
 	
 	public static String ROOT_SCHOOLAPP_URL = "http://206.80.46.126/";
 	public static String ABOUT_EDULERT = "http://206.80.46.126/about";
+	public static String FOLDER_NAME = "/com.optimo.quakertown/images/";
 	
 	public static String OPTIMO_INFO_TECH_ID = "25740cf7ee2c01cef64bd74daa0eb81d";
 	public static String DALLAS_SD = "6aec101b55b24000bf678d306b617eb8";
