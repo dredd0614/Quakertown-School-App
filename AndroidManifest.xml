@@ -57,11 +57,9 @@
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.optimo.quakertown.SchoolAppBroadCastRecordVoiceActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.optimo.quakertown.SchoolAppBroadCastTextActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.optimo.quakertown.SchoolAppUserMessageTypeActivity"

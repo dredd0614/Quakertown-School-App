@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.optimo.quakertown.SchoolAppListActivity;
+import com.optimo.quakertown.SchoolAppLoginActivity;
 import com.optimo.quakertown.constants.Constants;
 
 public class AsyncTaskNotificationUserChannelList extends AsyncTask<Void, String, String> {
@@ -25,6 +26,8 @@ public class AsyncTaskNotificationUserChannelList extends AsyncTask<Void, String
 
 	//Should be changing to the splashScreen?
 	SchoolAppListActivity schoolAppListActivity;
+	SchoolAppLoginActivity schoolAppLoginActivity;
+
 	String id;
 	String token;
 	
@@ -42,9 +45,15 @@ public class AsyncTaskNotificationUserChannelList extends AsyncTask<Void, String
 		this.id = Constants.ACTIVE_ID;
 		this.token = token;
 	}
+	
+	public AsyncTaskNotificationUserChannelList(SchoolAppLoginActivity schoolAppLoginActivity, String token){
+		this.schoolAppLoginActivity = schoolAppLoginActivity;
+		this.id = Constants.ACTIVE_ID;
+		this.token = token;
+	}
 
 	protected void onPreExecute() {
-		loader = new ProgressDialog(schoolAppListActivity);
+		loader = new ProgressDialog(schoolAppLoginActivity);
 		loader.setMessage("Loading...");
 		loader.show();
 	}
@@ -92,7 +101,7 @@ public class AsyncTaskNotificationUserChannelList extends AsyncTask<Void, String
 	}
 
 	protected void onProgressUpdate(String... progress) {
-		loader.setMessage("Loading...");
+		loader.setMessage("Getting User Notification List...");
 	}
 
 	protected void onPostExecute(String result) {
@@ -100,7 +109,7 @@ public class AsyncTaskNotificationUserChannelList extends AsyncTask<Void, String
 
 		Log.d(TAG,result);
 
-		schoolAppListActivity.returnResult(result);
+		//schoolAppLoginActivity.returnUserNotificationListResult(result);
 
 	}
 

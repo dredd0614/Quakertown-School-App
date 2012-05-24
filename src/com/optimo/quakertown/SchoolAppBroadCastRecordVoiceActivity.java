@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,21 +57,26 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 	String channelId;
 	String audioPath = "";
 
-	Button stopbutton;
-	Button recordbutton;
+	ImageView mic;
+	ImageView mic_bright;
+
+
+	ImageButton stopbutton;
+	ImageButton recordbutton;
 
 	ImageButton rewindbutton;
 	ImageButton playbutton;
-	ImageButton stopimagebutton;
-	ImageButton pausebutton;
+	//	ImageButton pausebutton;
 	Button broadcastbutton;
 	boolean paused = false;
-
+	boolean isRecording = false;
 	long elapsedTime=0;
 	String currentTime="";
 	long startTime=SystemClock.elapsedRealtime();
 	Boolean resume=false;
+	TextView amplitudeTextView;
 
+	RecordAmplitude recordAmplitude;
 
 	Chronometer myChronometer = null;
 
@@ -80,7 +87,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.broadcastrecordedvoicelayout);
+		setContentView(R.layout.broadcastrecordedvoicelayout2);
 
 		settings = getSharedPreferences(APP_SETTINGS_FILE, 0);
 
@@ -105,6 +112,9 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 
 		titlelayoutholder.setBackgroundDrawable(SchoolAppGradientDrawable.generateGradientDrawable(titleColor));
 
+		amplitudeTextView = (TextView) findViewById(R.id.amp);
+		mic = (ImageView) findViewById(R.id.microphone);
+		mic_bright = (ImageView) findViewById(R.id.microphone_bright);
 
 		sAUMTA = this;
 
@@ -129,7 +139,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 			}
 		});
 		 */
-		recordbutton = (Button) findViewById(R.id.recordbutton);
+		recordbutton = (ImageButton) findViewById(R.id.recordbutton);
 		recordbutton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
@@ -149,10 +159,10 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				}
 			}
 		});
-		recordbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
+		//		recordbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
 
-		stopbutton = (Button) findViewById(R.id.stopbutton);
+		stopbutton = (ImageButton) findViewById(R.id.stopbutton);
 		stopbutton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
@@ -161,9 +171,11 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 
 			}
 		});
-		stopbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
+		stopbutton.setVisibility(View.GONE);
 
+		//		stopbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
+		/*
 		stopimagebutton = (ImageButton) findViewById(R.id.stopimagebutton);
 		stopimagebutton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -175,7 +187,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 		});
 		stopimagebutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 		stopimagebutton.setVisibility(View.GONE);
-
+		 */
 
 		rewindbutton = (ImageButton) findViewById(R.id.rewindbutton);
 		rewindbutton.setOnClickListener(new OnClickListener(){
@@ -194,7 +206,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				}
 			}
 		});
-		rewindbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
+		//		rewindbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
 
 		playbutton = (ImageButton) findViewById(R.id.playbutton);
@@ -223,9 +235,11 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				}
 			}
 		});
-		playbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
+		playbutton.setVisibility(View.VISIBLE);
 
+		//		playbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
+		/*
 		pausebutton = (ImageButton) findViewById(R.id.pausebutton);
 		pausebutton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -240,7 +254,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 			}
 		});
 		pausebutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
+		 */
 
 		broadcastbutton = (Button) findViewById(R.id.broadcastbutton);
 		broadcastbutton.setOnClickListener(new OnClickListener(){
@@ -263,19 +277,24 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				} 
 
 				if(recordedMessage!=null){
-					new AsyncTaskSendRecordingUploadBroadcast(SchoolAppBroadCastRecordVoiceActivity.this, channelId, token, recordedMessage).execute();
+					Toast.makeText(SchoolAppBroadCastRecordVoiceActivity.this, "Be sure to uncomment code to actually broadcast the message.", Toast.LENGTH_LONG).show();
+
+//					new AsyncTaskSendRecordingUploadBroadcast(SchoolAppBroadCastRecordVoiceActivity.this, channelId, token, recordedMessage).execute();
 				}else{
 					Toast.makeText(SchoolAppBroadCastRecordVoiceActivity.this, "Please make a recording first", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
-		broadcastbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
+		//	broadcastbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
 	}
 
 	public void startRecording() throws IOException {
 
+		isRecording=true;
 		swapRecordStopButtons();
+		recordAmplitude = new RecordAmplitude();
+		recordAmplitude.execute();
 		String fileName = "SchoolApp-"
 			+ String.valueOf(System.currentTimeMillis())
 			+ ".3gp";
@@ -318,7 +337,16 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 	}
 
 	public void stopRecording() {
+		recordAmplitude.cancel(true);
+		isRecording=false;
 		swapRecordStopButtons();
+		swapPlayStopImageButtons();
+		//Let the amp tracker kill itself
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		recorder.stop();
 		recorder.release();
 
@@ -405,6 +433,19 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 
 	private void swapRecordStopButtons(){
 
+		swapPlayStopImageButtons();
+		
+		if(isRecording){
+			recordbutton.setImageDrawable(this.getResources().getDrawable(R.drawable.record2_nate_bright));
+	//		mic.setVisibility(View.GONE);
+	//		mic_bright.setVisibility(View.VISIBLE);
+		}else{
+			recordbutton.setImageDrawable(this.getResources().getDrawable(R.drawable.record2_nate));
+	//		mic.setVisibility(View.VISIBLE);
+	//		mic_bright.setVisibility(View.GONE);
+		}
+
+		/*
 		if(recordbutton.getVisibility()==View.INVISIBLE){
 			recordbutton.setVisibility(View.VISIBLE);
 			stopbutton.setVisibility(View.INVISIBLE);
@@ -412,17 +453,18 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 			recordbutton.setVisibility(View.INVISIBLE);
 			stopbutton.setVisibility(View.VISIBLE);
 		}
+		 */
 
 	}
 
 	private void swapPlayStopImageButtons(){
 
-		if(playbutton.getVisibility()==View.INVISIBLE){
+		if(playbutton.getVisibility()==View.GONE){
 			playbutton.setVisibility(View.VISIBLE);
-			stopimagebutton.setVisibility(View.INVISIBLE);
+			stopbutton.setVisibility(View.GONE);
 		}else{
-			playbutton.setVisibility(View.INVISIBLE);
-			stopimagebutton.setVisibility(View.VISIBLE);
+			playbutton.setVisibility(View.GONE);
+			stopbutton.setVisibility(View.VISIBLE);
 		}
 
 	}
@@ -531,6 +573,33 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 			elapsedTime=elapsedTime+1000;
 		}
 
+	}
+
+	private class RecordAmplitude extends AsyncTask<Void, Integer, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			while (isRecording) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				publishProgress(recorder.getMaxAmplitude());
+			}
+			return null;
+		}
+		protected void onProgressUpdate(Integer... progress) {
+			if(progress[0]>6000){
+				mic.setVisibility(View.GONE);
+				mic_bright.setVisibility(View.VISIBLE);
+			}else{
+				mic.setVisibility(View.VISIBLE);
+				mic_bright.setVisibility(View.GONE);
+			}
+
+			amplitudeTextView.setText(progress[0].toString());
+		}
 	}
 
 }

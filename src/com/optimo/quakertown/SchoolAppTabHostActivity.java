@@ -76,6 +76,12 @@ public class SchoolAppTabHostActivity extends TabActivity{
 					res.getDrawable(R.drawable.settingsblank3))
 					.setContent(intent);
 			tabHost.addTab(spec);
+		}else if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
+			intent = new Intent().setClass(this, SchoolAppSettingsOptionsActivity.class);
+			spec = tabHost.newTabSpec("settings").setIndicator("Settings",
+					res.getDrawable(R.drawable.settingsblank3))
+					.setContent(intent);
+			tabHost.addTab(spec);
 		}
 		tabHost.setCurrentTab(0);
 	}

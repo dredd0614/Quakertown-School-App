@@ -8,5 +8,8 @@
     <color name="bluegradientbackgroundunpressedendcolor">#FF4586</color>
     <color name="bluegradientbackgroundunpressedstartcolor">#3477d6</color>
 	<color name="transparent">#00000000</color>
+    <color name="voicebroadcastgrey">#575757</color>
+    <color name="currentbreadcrumbgrey">#dbdbdb</color>
     
+	
 </resources>

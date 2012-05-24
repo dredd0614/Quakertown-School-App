@@ -80,7 +80,7 @@ public class AsyncTaskNotificationUserSendNotificaton extends AsyncTask<Void, St
 		String url = Constants.ROOT_SCHOOLAPP_URL + "app/sendMessage/";
 		url += id;
 	
-		url += "/"+channelId+"/"+token+"/"+sms+"/"+email+"/"+call+"/"+replyEmail+"/"+messageText;
+		url += "/"+channelId+"/"+token+"/"+sms+"/"+email+"/"+call+"/"+replyEmail+"/"+messageText.trim();
 
 		HttpClient client = new DefaultHttpClient();
 		client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "android");
@@ -107,8 +107,9 @@ public class AsyncTaskNotificationUserSendNotificaton extends AsyncTask<Void, St
 
 		}
 		catch(Exception e){
-
+			e.printStackTrace();
 		}
+
 		return page;
 
 

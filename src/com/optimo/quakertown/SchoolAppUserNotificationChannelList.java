@@ -47,6 +47,8 @@ import com.optimo.quakertown.objects.NotificationListObject;
 public class SchoolAppUserNotificationChannelList extends ListActivity {
 
 	String TAG = "SchoolAppUserNotificationChannelList";
+	private static final String APP_USER_NOTIFICATIONS_FILE = "AppUserNotificationsFile";
+
 
 	private ListView lv = null;
 	//private String selectedId;
@@ -152,9 +154,12 @@ public class SchoolAppUserNotificationChannelList extends ListActivity {
 			}
 		});
 
-		String notificationJSONString = getNotificationChannelList(Constants.ACTIVE_ID, token);
-		Log.d("Title", notificationJSONString.toString());
+	//	String notificationJSONString = getNotificationChannelList(Constants.ACTIVE_ID, token);
+	//	Log.d("Title", notificationJSONString.toString());
 
+		settings = getSharedPreferences(APP_USER_NOTIFICATIONS_FILE, 0);
+
+		String notificationJSONString = settings.getString(this.getString(R.string.JSONString), "");
 
 		JSONObjectExtracter jsonOE = new JSONObjectExtracter();
 		try {

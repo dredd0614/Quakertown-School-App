@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -171,6 +173,9 @@ public class SchoolAppBroadCastTextActivity extends Activity{
 		});
 		broadcastButton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
 
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(broadcastButton.getWindowToken(), 0);
+		
 	/*	sendtexttogglebutton.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -232,6 +237,7 @@ public class SchoolAppBroadCastTextActivity extends Activity{
 	}
 
 	public void returnResult(String result){
+		
 		Log.d("Subscribe Response: ",result);
 		if(result.contains("OK")){
 			mHandler.post(new Runnable() {

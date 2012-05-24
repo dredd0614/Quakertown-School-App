@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_gradient_background" >
+
+        <Button
+            android:id="@+id/hiddenloginbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_red_gradient_background"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/amp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:text="Amp"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" 
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bodyholder"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/titlelayoutholder"
+        android:background="@color/voicebroadcastgrey" >
+
+        <RelativeLayout
+            android:id="@+id/chronoholder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/topbar" >
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/microphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/broadcastbutton"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/microphone"
+            android:src="@drawable/microphone2_nobottompadding3_light" />
+
+        <ImageView
+            android:id="@+id/microphone_bright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/broadcastbutton"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/microphone"
+            android:src="@drawable/microphone2_nobottompadding2"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/broadcastbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/actionbuttonholder"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bluebar"
+            android:padding="5dp"
+            android:text="@string/broadcastrobocall"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/actionbuttonholder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <LinearLayout
+                android:id="@+id/actionbuttonspacer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageButton
+                    android:id="@+id/rewindbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bottombar"
+                    android:contentDescription="@string/rewindDescription"
+                    android:src="@drawable/rewind2_nate"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/recordbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bottombar"
+                    android:contentDescription="@string/recordDescription"
+                    android:src="@drawable/record2_nate"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/stopbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bottombar"
+                    android:contentDescription="@string/stopDescription"
+                    android:src="@drawable/stop2_nate"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/playbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bottombar"
+                    android:contentDescription="@string/playDescription"
+                    android:src="@drawable/play2_nate"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

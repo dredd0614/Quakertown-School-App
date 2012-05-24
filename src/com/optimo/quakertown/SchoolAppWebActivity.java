@@ -41,7 +41,7 @@ public class SchoolAppWebActivity extends Activity {
 	SharedPreferences settings;
 	private String titleColor;
 	AppSettingsObject appSettingsObject = null;
-
+	String url = "";
 
 	/*
 	@Override
@@ -76,17 +76,17 @@ public class SchoolAppWebActivity extends Activity {
 		}
 
 	}
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
 		setContentView(R.layout.websitelayout);
-	
+
 		dbHelperChannel = new SchoolAppChannelDBAdapter(SchoolAppWebActivity.this);
 		dbHelperChannel.open();
-		
-		
+
+
 		this.getWindow().setFeatureInt( Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 
 		settings = getSharedPreferences(APP_SETTINGS_FILE, 0);
@@ -125,7 +125,7 @@ public class SchoolAppWebActivity extends Activity {
 		final String id = extras.getString("id");
 		final String actionTitle = extras.getString("title");
 
-		final String url = extras.getString("url");
+		url = extras.getString("url");
 		boolean subscribe = extras.getBoolean("subscribe");
 
 
@@ -151,7 +151,7 @@ public class SchoolAppWebActivity extends Activity {
 
 				@Override
 				public void onClick(View arg0) {
-					
+
 					if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
 						settings = getSharedPreferences(KEY, 0);
 
@@ -164,7 +164,7 @@ public class SchoolAppWebActivity extends Activity {
 							new AsyncTaskPushNotificationSubscribe(SchoolAppWebActivity.this, 
 									Constants.ACTIVE_ID, notificationListObject, registration).execute();
 						}
-						
+
 					}else{
 						Intent myIntent = new Intent(SchoolAppWebActivity.this, SchoolAppChannelSubscribeActivity.class);
 						myIntent.putExtra("channelId", id);
@@ -234,7 +234,7 @@ public class SchoolAppWebActivity extends Activity {
 
 		if(url.equals(Constants.ABOUT_EDULERT)){
 			subscribeButton.setVisibility(View.GONE);
-			title.setText(getResources().getString(R.string.edulert));
+			title.setText(getResources().getString(R.string.uCast));
 			hiddenloginbutton.setVisibility(View.GONE);
 			forwardbutton.setVisibility(View.GONE);
 			backbutton.setVisibility(View.GONE);
@@ -270,10 +270,33 @@ public class SchoolAppWebActivity extends Activity {
 		webView.getSettings().setSupportZoom(true); 
 		webView.getSettings().setUseWideViewPort(true);
 		webView.getSettings().setLoadWithOverviewMode(true);
-		webView.loadUrl(url);
+		if (savedInstanceState != null){
+			webView.restoreState(savedInstanceState);
+		}else{
+			webView.loadUrl(url);
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		// Save UI state changes to the savedInstanceState.
+		// This bundle will be passed to onCreate if the process is
+		// killed and restarted.
+
+		webView.saveState(savedInstanceState);
+
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		// Restore UI state from the savedInstanceState.
+		// This bundle has also been passed to onCreate.
+		url = savedInstanceState.getString("url");
 
 	}
-	
+
 	public void returnPushSubscribeResult(String result, NotificationListObject notificationListObject){
 		dbHelperChannel.createChannelConnection(notificationListObject.getChannelId(), notificationListObject.getTitle(), 0l);
 	}
@@ -294,5 +317,5 @@ public class SchoolAppWebActivity extends Activity {
 			return true;
 		}
 	}
-	*/
+	 */
 }

@@ -18,9 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.optimo.quakertown.asynctasks.AsyncTaskLoginGetNotificationUserChannelList;
+import com.optimo.quakertown.asynctasks.AsyncTaskNotificationUserChannelList;
 import com.optimo.quakertown.asynctasks.AsyncTaskNotificationUserLogin;
 import com.optimo.quakertown.colors.ColorFixer;
+import com.optimo.quakertown.constants.Constants;
 import com.optimo.quakertown.drawable.SchoolAppGradientDrawable;
 import com.optimo.quakertown.jsonObjectExtracter.JSONObjectExtracter;
 import com.optimo.quakertown.objects.AppSettingsObject;
@@ -29,11 +33,13 @@ public class SchoolAppLoginActivity extends Activity{
 
 	SchoolAppLoginActivity sALA;
 	private Handler mHandler = new Handler();
-	
+
 	private static final String APP_SETTINGS_FILE = "AppSettingsFile";
+	private static final String APP_USER_NOTIFICATIONS_FILE = "AppUserNotificationsFile";
+
 	SharedPreferences.Editor editor;
 	SharedPreferences settings;
-	
+
 	private String titleColor;
 
 	@Override
@@ -53,7 +59,7 @@ public class SchoolAppLoginActivity extends Activity{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(appSettingsObject.getTitleBar());
 
@@ -64,7 +70,7 @@ public class SchoolAppLoginActivity extends Activity{
 
 		titlelayoutholder.setBackgroundDrawable(SchoolAppGradientDrawable.generateGradientDrawable(titleColor));
 
-		
+
 		sALA = this;
 
 		//Bundle extras = getIntent().getExtras();
@@ -81,12 +87,15 @@ public class SchoolAppLoginActivity extends Activity{
 			@Override
 			public void onClick(View arg0) {
 
-				String username="";
-				String password = "";
-				username = usernameEditText.getText().toString();
-				password = passwordEditText.getText().toString();
-				new AsyncTaskNotificationUserLogin(sALA, username, password).execute();
-
+				if(usernameEditText.getText().toString().equals("")||passwordEditText.getText().toString().equals("")){
+					Toast.makeText(SchoolAppLoginActivity.this, "Please enter a username and password.", Toast.LENGTH_SHORT).show();
+				}else{
+					String username="";
+					String password = "";
+					username = usernameEditText.getText().toString();
+					password = passwordEditText.getText().toString();
+					new AsyncTaskLoginGetNotificationUserChannelList(sALA, username, password).execute();
+				}
 			}
 
 		});
@@ -95,7 +104,57 @@ public class SchoolAppLoginActivity extends Activity{
 
 	}
 
-	public void returnResult(String result){
+	public void onResume(){
+		super.onResume();
+
+	//	EditText usernameEditText = (EditText) findViewById(R.id.loginUsernameEditText);	
+	//	EditText passwordEditText = (EditText) findViewById(R.id.loginPasswordEditText);	
+
+	//	usernameEditText.setText("");
+	//	passwordEditText.setText("");
+
+	}
+
+	public void returnLoginResult(String result, String token){
+		Log.d("Subscribe Response: ",result);
+		if(result.contains("ERROR")||result.equals("{}")){
+			mHandler.post(new Runnable() {
+				public void run() {
+					AlertDialog.Builder helpBuilder = new AlertDialog.Builder(sALA);
+					helpBuilder.setTitle("Login");
+					helpBuilder.setMessage("Invalid Username/Password");
+
+					helpBuilder.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					});
+					AlertDialog helpDialog = helpBuilder.create();
+					helpDialog.show();
+				}
+			});
+
+		}else {
+			//	new AsyncTaskNotificationUserChannelList(sALA, result ).execute();
+
+			SharedPreferences menus;
+			SharedPreferences.Editor editor;
+
+
+			menus = getSharedPreferences(APP_USER_NOTIFICATIONS_FILE, 0);
+			editor = menus.edit();
+			editor.putString(SchoolAppLoginActivity.this.getString(R.string.JSONString), result);
+			editor.commit();
+
+			Intent myIntent = new Intent(SchoolAppLoginActivity.this, SchoolAppUserNotificationChannelList.class);
+			myIntent.putExtra("token", token);
+			startActivity(myIntent);
+		}
+	}
+
+	/*
+	public void returnUserNotificationListResult(String result){
 		Log.d("Subscribe Response: ",result);
 		if(result.contains("ERROR")){
 			mHandler.post(new Runnable() {
@@ -114,12 +173,17 @@ public class SchoolAppLoginActivity extends Activity{
 					helpDialog.show();
 				}
 			});
-			
+
 		}else {
+
+
+
+
 			Intent myIntent = new Intent(SchoolAppLoginActivity.this, SchoolAppUserNotificationChannelList.class);
 			myIntent.putExtra("token", result);
 			startActivity(myIntent);
 		}
 	}
+	 */
 
 }

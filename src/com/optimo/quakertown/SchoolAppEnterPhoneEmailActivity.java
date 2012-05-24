@@ -223,7 +223,10 @@ public class SchoolAppEnterPhoneEmailActivity extends Activity{
 					}else{
 						Toast.makeText(SchoolAppEnterPhoneEmailActivity.this, "Please enter a full phone number with no symbols", Toast.LENGTH_SHORT).show();
 					}
-				}else if(type.equals(Constants.EMAIL)&&	!emailEditText.getText().toString().equals("")){
+				}else{
+					Toast.makeText(SchoolAppEnterPhoneEmailActivity.this, "Please enter a full 10 digit phone number with no symbols", Toast.LENGTH_SHORT).show();
+				}
+				if(type.equals(Constants.EMAIL)&&	!emailEditText.getText().toString().equals("")){
 
 					EmailValidator em = new EmailValidator();
 					if(em.validate(emailEditText.getText().toString())){

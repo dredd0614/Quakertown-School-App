@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/titlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_gradient_background" >
+
+        <ImageButton
+            android:id="@+id/settingsbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_blue_gradient_background"
+            android:contentDescription="@string/settingsDescription"
+            android:src="@drawable/gearwithshadow"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/hiddenloginbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_blue_gradient_background"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:scrollHorizontally="true"
+            android:text="@string/schoolname"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/loginbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="0dp"
+            android:background="@drawable/login_blue_gradient_background"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/actiontitlelayoutholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titlelayoutholder"
+        android:background="@drawable/action_light_grey_gradient_background" >
+
+        <ImageView
+            android:id="@+id/actionicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/schoolActionIconDescription"
+            android:src="@drawable/actiondefaulticon" />
+
+        <HorizontalScrollView
+            android:id="@+id/breadcrumbscrollhorizontally"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/actionicon">
+
+            <LinearLayout
+                android:id="@+id/breadcrumblayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:id="@+id/actiontitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:layout_toRightOf="@+id/actionicon"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="2dp"
+                    android:scrollHorizontally="true"
+                    android:text="@string/actiontitle"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actiontitlelayoutholder" >
+
+        <LinearLayout
+            android:id="@+id/listholder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </ScrollView>
+    <!--
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:layout_below="@+id/listholder" >
+
+        <TableRow >
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_gravity="center_horizontal"
+                android:layout_span="3"
+                android:text="@string/login" />
+        </TableRow>
+
+        <TableRow >
+
+            <Button
+                android:id="@+id/button_add"
+                android:text="+" />
+
+            <TextView android:text="@string/login" />
+
+            <TextView android:id="@+id/amount" />
+        </TableRow>
+       
+  
+    </TableLayout>
+    -->
+
+</RelativeLayout>

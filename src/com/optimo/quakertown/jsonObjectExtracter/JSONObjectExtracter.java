@@ -218,7 +218,7 @@ public class JSONObjectExtracter {
 			m.setReplyto(jsonObject.getString("replyto"));
 			m.setVersion(jsonObject.getString("version"));
 			m.setLevel(jsonObject.getString("level"));
-			//m.setLevel("2");
+			m.setLevel("3");
 
 			//Log.d("Key", key);
 		

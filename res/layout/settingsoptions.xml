@@ -86,7 +86,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/blue_gradient_background"
-                android:text="@string/aboutedulert"
+                android:text="@string/aboutucast"
                 android:textColor="@color/white" />
     </RelativeLayout>
 

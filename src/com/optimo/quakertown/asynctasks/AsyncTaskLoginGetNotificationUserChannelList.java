@@ -1,5 +1,3 @@
-
-
 package com.optimo.quakertown.asynctasks;
 
 import java.io.BufferedReader;
@@ -19,8 +17,8 @@ import android.util.Log;
 import com.optimo.quakertown.SchoolAppLoginActivity;
 import com.optimo.quakertown.constants.Constants;
 
-public class AsyncTaskNotificationUserLogin extends AsyncTask<Void, String, String> {
-	String TAG = "AsyncTaskNotificationUserLogin";
+public class AsyncTaskLoginGetNotificationUserChannelList extends AsyncTask<Void, String, String> {
+	String TAG = "AsyncTaskLoginGetNotificationUserChannelList";
 
 
 	//Should be changing to the splashScreen?
@@ -28,18 +26,19 @@ public class AsyncTaskNotificationUserLogin extends AsyncTask<Void, String, Stri
 	String id;
 	String login;
 	String password;
+	String token;
 
 	ProgressDialog loader;
 
 
-	public AsyncTaskNotificationUserLogin(SchoolAppLoginActivity schoolAppLoginActivity, String id, String login, String password){
+	public AsyncTaskLoginGetNotificationUserChannelList(SchoolAppLoginActivity schoolAppLoginActivity, String id, String login, String password){
 		this.schoolAppLoginActivity = schoolAppLoginActivity;
 		this.id = id;
 		this.login = login;
 		this.password = password;
 	}
 
-	public AsyncTaskNotificationUserLogin(SchoolAppLoginActivity schoolAppLoginActivity, String login, String password){
+	public AsyncTaskLoginGetNotificationUserChannelList(SchoolAppLoginActivity schoolAppLoginActivity, String login, String password){
 		this.schoolAppLoginActivity = schoolAppLoginActivity;
 		this.id = Constants.ACTIVE_ID;
 		this.login = login;
@@ -91,8 +90,43 @@ public class AsyncTaskNotificationUserLogin extends AsyncTask<Void, String, Stri
 
 		}
 		catch(Exception e){
+			e.printStackTrace();
+		}
+		token = page;
+		
+		in = null;
+		url = Constants.ROOT_SCHOOLAPP_URL + "app/getChannels/";
+		url += id;
+		url += "/"+page.trim();
+
+		client = new DefaultHttpClient();
+		client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "android");
+		request = new HttpGet();
+		request.setHeader("Content-Type", "text/plain; charset=utf-8");
+		Log.d("URL: ",url);
+		try{
+			request.setURI(new URI(url));
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) 
+			{
+				sb.append(line + NL);
+			}
+
+			in.close();
+			page = sb.toString();
+			Log.d("page",page);
 
 		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return page;
 
 
@@ -107,7 +141,7 @@ public class AsyncTaskNotificationUserLogin extends AsyncTask<Void, String, Stri
 
 		Log.d(TAG,result);
 
-		schoolAppLoginActivity.returnLoginResult(result.trim(), "");
+		schoolAppLoginActivity.returnLoginResult(result.trim(), token.trim());
 
 	}
 

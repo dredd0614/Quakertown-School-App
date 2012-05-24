@@ -1,19 +1,12 @@
 package com.optimo.quakertown;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Stack;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -36,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -68,15 +62,18 @@ public class SchoolAppListActivity extends Activity{
 	public String menuId;
 	ArrayList<MenuObject> globalArrayMenuList = null;
 	ArrayList<MenuObject> globalMenuNavList = null;
+	ArrayList<TextView> globalBreadCrumbList = null;
 
 	ArrayList<NotificationListObject> globalArrayNotificationList = null;
 
-	//	TextView cookieTrail = null;
+	Stack<MenuObject> breadCrumb = new Stack<MenuObject>();
 	String pathTrail = null;
 	public String globalPath;
 	private String titleColor;
 	private String cellBackgroundColor;
 	private String cellTextColor;
+	
+	HorizontalScrollView hScrollView;
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -89,20 +86,22 @@ public class SchoolAppListActivity extends Activity{
 				finish();
 			}else if(globalPath.indexOf("_")==-1){
 				Log.d("GLobalPath:","-1");
-				//				cookieTrail.setText(cookieTrail.getText().toString().substring(0, cookieTrail.getText().toString().lastIndexOf(">")).trim());
+				breadCrumb.pop();
+				//				breadCrumb.setText(breadCrumb.getText().toString().substring(0, breadCrumb.getText().toString().lastIndexOf(">")).trim());
 				globalPath = "";
-				fillMainMenu(globalPath);
 				generateUI();
-				//			m_adapter.notifyDataSetChanged();
+
+				//m_adapter.notifyDataSetChanged();
 			}else if(globalPath.indexOf("_")>0){
 				Log.d("GLobalPath:",">0");
+				breadCrumb.pop();
 
 				globalPath = globalPath.substring(0, globalPath.lastIndexOf("_"));
-				//				cookieTrail.setText(cookieTrail.getText().toString().substring(0, cookieTrail.getText().toString().lastIndexOf(">")).trim());
+				//				breadCrumb.setText(breadCrumb.getText().toString().substring(0, breadCrumb.getText().toString().lastIndexOf(">")).trim());
 
-				fillMainMenu(globalPath);
 				generateUI();
-				//			m_adapter.notifyDataSetChanged();
+
+				//m_adapter.notifyDataSetChanged();
 			}else{
 				Log.d("GLobalPath:","else");
 			}
@@ -115,7 +114,7 @@ public class SchoolAppListActivity extends Activity{
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.schoolappgridlistlayout);
+		setContentView(R.layout.schoolappgridlistlayoutbreadcrumbs);
 
 		settings = getSharedPreferences(APP_SETTINGS_FILE, 0);
 
@@ -144,8 +143,11 @@ public class SchoolAppListActivity extends Activity{
 		StateListDrawable sd = (StateListDrawable)titlelayoutholder.getBackground();		
 		titlelayoutholder.setBackgroundDrawable(SchoolAppGradientDrawable.generateGradientDrawable(titleColor));
 
-		TextView actionTitle = (TextView) findViewById(R.id.actiontitle);
-		actionTitle.setText("Select a Category");
+		hScrollView = (HorizontalScrollView) findViewById(R.id.breadcrumbscrollhorizontally);
+
+		
+//		TextView actionTitle = (TextView) findViewById(R.id.actiontitle);
+//		actionTitle.setText("Select a Category");
 
 		Button loginButton = (Button) findViewById(R.id.loginbutton);
 		ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsbutton);
@@ -176,30 +178,7 @@ public class SchoolAppListActivity extends Activity{
 
 			settingsButton.setVisibility(View.VISIBLE);
 
-		}else if(appSettingsObject.getLevel().equals(Constants.PUSH_NOTIFICATION)){
-			settingsButton.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View arg0) {
-					Intent myIntent = new Intent(SchoolAppListActivity.this, SchoolAppSettingsOptionsActivity.class);
-					startActivity(myIntent);
-				}
-
-			});
-			settingsButton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
-			settingsButton.setVisibility(View.VISIBLE);
-
 		}
-
-
-		//		lv = getListView();
-
-		//		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-		//			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
-		//				return onLongListItemClick(v,pos,id);
-		//			}
-		//		});
 
 		//String mainMenuJSONString = getMainMenu();
 
@@ -218,16 +197,6 @@ public class SchoolAppListActivity extends Activity{
 		}
 
 
-		//	String imageLink = "DallasHighSchool.png";
-		//Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
-
-		//	TableLayout tl = new TableLayout(SchoolAppListActivity.this);
-		//	tl.setLayoutParams(new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-
-		//	tr.addView(ib);
-		//	tl.addView(tr);
-		//	rl.addView(tl);
-
 		//String notificationJSONString = getNotificationMenu();
 
 		settings = getSharedPreferences(NOTIFICATIONFILE, 0);
@@ -243,41 +212,108 @@ public class SchoolAppListActivity extends Activity{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		Button testGrabImageButton = (Button) findViewById(R.id.testGrabImageButton);
-		testGrabImageButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-					new AsyncTaskMainMenuGetImage(SchoolAppListActivity.this, "DallasHighSchool.png" ).execute();
-			}
-
-		});
-		 */
-		//printArrayNotificatonList(globalArrayNotificationList);
-
-		//		cookieTrail = (TextView) findViewById(R.id.cookieTrail); 
-		//		cookieTrail.setText("Home");
 
 		globalPath = "";
-		fillMainMenu(globalPath);
-
 		generateUI();
 
-		//		registerForContextMenu(lv);
 
 	}
+	
+	private void generateUI(){
+		generateBreadCrumbs();
+		fillMainMenu(globalPath);
+		updateMenuListUI();
+	}
 
+	private void generateBreadCrumbs(){
+		LinearLayout ll = (LinearLayout) findViewById(R.id.breadcrumblayout);
+		ll.removeAllViews();
 
-	private void generateUI() {
+		//if(breadCrumb)
+		if(breadCrumb.empty()){
+			MenuObject homeMenuObject = new MenuObject();
+			homeMenuObject.setTitle("Home"+"");
+			homeMenuObject.setPath("");
+			breadCrumb.push(homeMenuObject);
+		}
+		
+		Iterator<MenuObject> i = breadCrumb.iterator();
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
+
+		while(i.hasNext()){
+			MenuObject m = i.next();
+			TextView t = new TextView(SchoolAppListActivity.this);
+			t.setLayoutParams(params);
+			t.setText(m.getTitle()+"");
+			t.setTextColor(getResources().getColor(R.color.currentbreadcrumbgrey));
+			t.setBackgroundDrawable(getResources().getDrawable(R.drawable.bread_crumb_background));
+			if(!i.hasNext()){
+				t.setTextColor(getResources().getColor(R.color.black));
+			}
+			t.setTextAppearance(SchoolAppListActivity.this, R.style.boldText);
+			t.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					TextView pressedBreadCrumb = (TextView)v;
+					int locationInBreadCrumb = findLocationInBreadCrumbStack(pressedBreadCrumb.getText().toString());
+					locationInBreadCrumb++;//int i = 0;
+					Log.d("locationInBreadCrumb",locationInBreadCrumb+"");
+
+					int sizeOfBreadCrumbStack = breadCrumb.size();
+					Log.d("sizeOfBreadCrumbStack",sizeOfBreadCrumbStack+"");
+
+					while(locationInBreadCrumb<sizeOfBreadCrumbStack){
+						Log.d("popping","Popping");
+
+						breadCrumb.pop();
+						locationInBreadCrumb++;
+					}
+					
+					globalPath = breadCrumb.peek().getPath();
+					//fillMainMenu(globalPath);
+					generateUI();
+				}
+
+			});
+			
+			ll.addView(t);
+			if(i.hasNext()){
+				TextView arrow = new TextView(SchoolAppListActivity.this);
+				arrow.setText(" > ");
+				arrow.setLayoutParams(params);
+				arrow.setTextColor(getResources().getColor(R.color.black));
+				arrow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bread_crumb_arrow_background));
+				ll.addView(arrow);
+			}
+		}
+		Log.d("LL getChildCount", ll.getChildCount()+"");
+		Log.d("breadCrumbSize", breadCrumb.size()+"");
+	//	hScrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+	}
+	
+	private int findLocationInBreadCrumbStack(String title){
+		Iterator<MenuObject> i = breadCrumb.iterator();
+		int location = 0;
+		while(i.hasNext()){
+			MenuObject m = i.next();
+			if(title.equals(m.title))
+				return location;
+			location++;
+		}
+		return location;
+	}
+
+	private void updateMenuListUI() {
+		generateBreadCrumbs();
+
 		ScrollView sv = (ScrollView) findViewById(R.id.scrollView1);
 
 		LinearLayout rl = (LinearLayout) findViewById(R.id.listholder);
 		rl.removeAllViews();
-		//		LinearLayout.LayoutParams paramsll = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		//		paramsll.gravity = Gravity.CENTER;
-		//		rl.setLayoutParams(paramsll);
+		//LinearLayout.LayoutParams paramsll = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		//paramsll.gravity = Gravity.CENTER;
+		//rl.setLayoutParams(paramsll);
 
 		File sdCard = null;
 
@@ -324,8 +360,8 @@ public class SchoolAppListActivity extends Activity{
 					//	TableRow.LayoutParams paramstr = new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1.0f);
 					//	paramstr.gravity = Gravity.CENTER;
 					//	tr.setLayoutParams(new TableLayout.LayoutParams(
-					//			TableLayout.LayoutParams.FILL_PARENT,
-					//			TableLayout.LayoutParams.FILL_PARENT));
+					//	TableLayout.LayoutParams.FILL_PARENT,
+					//	TableLayout.LayoutParams.FILL_PARENT));
 					//	tr.setBackgroundColor(Color.parseColor("#"+"00ff00"));
 
 				}
@@ -349,21 +385,21 @@ public class SchoolAppListActivity extends Activity{
 					@Override
 					public void onClick(View arg0) {
 
-						//String updateCookieTrail = cookieTrail.getText().toString();//+" > "+o.getTitle();
+						//						String updateBreadCrumb = breadCrumb.getText().toString();//+" > "+o.getTitle();
 						//Log.d("MenuObject", o.toString());
 
 						if(m.getType().equals("menu")){
 							Log.d("GetThisPath", m.getPath());
 
 							fillMainMenu(m.getPath());
-							//			cookieTrail.setText(cookieTrail.getText().toString()+" > "+ o.getTitle());
+							//							breadCrumb.setText(breadCrumb.getText().toString()+" > "+ m.getTitle());
+							breadCrumb.push(m);
 
 							globalPath = m.getPath();
-							Log.d("GLobalPath:",globalPath);
-
 							generateUI();
 
-							//							m_adapter.notifyDataSetChanged();
+
+							//m_adapter.notifyDataSetChanged();
 						}else{
 							Intent myIntent = new Intent(SchoolAppListActivity.this, SchoolAppWebActivity.class);
 							if(isInNotificationList(m.getChannel())){
@@ -371,10 +407,9 @@ public class SchoolAppListActivity extends Activity{
 							}
 
 							myIntent.putExtra("url", m.getLink());
-							//			myIntent.putExtra("cookieTrail", cookieTrail.getText().toString()+ " > "+ o.getTitle());
+							//myIntent.putExtra("breadCrumb", breadCrumb.getText().toString()+ " > "+ m.getTitle());
 							myIntent.putExtra("id", m.getChannel());
 							myIntent.putExtra("title", m.getTitle());
-							//myIntent.putExtra("pickupId", pickup.getId());
 							startActivity(myIntent);
 						}
 
@@ -424,21 +459,20 @@ public class SchoolAppListActivity extends Activity{
 					@Override
 					public void onClick(View arg0) {
 
-						//String updateCookieTrail = cookieTrail.getText().toString();//+" > "+o.getTitle();
+						//						String updateBreadCrumb = breadCrumb.getText().toString();//+" > "+o.getTitle();
 						//Log.d("MenuObject", o.toString());
 
 						if(m.getType().equals("menu")){
 							Log.d("GetThisPath", m.getPath());
 
 							fillMainMenu(m.getPath());
-							//			cookieTrail.setText(cookieTrail.getText().toString()+" > "+ o.getTitle());
-
+							//							breadCrumb.setText(breadCrumb.getText().toString()+" > "+ m.getTitle());
+							breadCrumb.push(m);
 							globalPath = m.getPath();
 							Log.d("GLobalPath:",globalPath);
-
 							generateUI();
 
-							//							m_adapter.notifyDataSetChanged();
+							//m_adapter.notifyDataSetChanged();
 						}else{
 							Intent myIntent = new Intent(SchoolAppListActivity.this, SchoolAppWebActivity.class);
 							if(isInNotificationList(m.getChannel())){
@@ -446,10 +480,9 @@ public class SchoolAppListActivity extends Activity{
 							}
 
 							myIntent.putExtra("url", m.getLink());
-							//			myIntent.putExtra("cookieTrail", cookieTrail.getText().toString()+ " > "+ o.getTitle());
+							//myIntent.putExtra("breadCrumb", breadCrumb.getText().toString()+ " > "+ m.getTitle());
 							myIntent.putExtra("id", m.getChannel());
 							myIntent.putExtra("title", m.getTitle());
-							//myIntent.putExtra("pickupId", pickup.getId());
 							startActivity(myIntent);
 						}
 
@@ -475,13 +508,17 @@ public class SchoolAppListActivity extends Activity{
 		sv.fullScroll(ScrollView.FOCUS_UP);
 	}
 
+	public void onClick(View v){
+
+	}
+
 	private String addReturnsToTitle(String title){
 		String titleWithReturns = title.replace(" ", "\n");
 		return titleWithReturns;
 	}
 
 	protected boolean onLongListItemClick(View v, int pos, long id) {
-		//		selectedId = m_adapter.getItem(pos).getId();
+		//selectedId = m_adapter.getItem(pos).getId();
 
 		//False will tell the parent that you didn't handle the onLongPress
 		//Will load onCreateContextMenu
@@ -491,17 +528,33 @@ public class SchoolAppListActivity extends Activity{
 	public void onResume(){
 		super.onResume();
 
-		fillMainMenu(globalPath);
 		generateUI();
 
-		//		m_adapter.notifyDataSetChanged();
+
+		//m_adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		// Save UI state changes to the savedInstanceState.
+		// This bundle will be passed to onCreate if the process is
+		// killed and restarted.
+		savedInstanceState.putString("globalPath", globalPath);
+
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		// Restore UI state from the savedInstanceState.
+		// This bundle has also been passed to onCreate.
+		globalPath = savedInstanceState.getString("globalPath");
+
 	}
 
 	private void fillMainMenu(String path){
-		//		dbHelperPickupListObjects.createPickupListObject(3, "PickupName", "cancel", "nickname");
-		ArrayList<MenuObject> mArrayList = new ArrayList<MenuObject>();
-
-		Log.d("fillMainMenuPath:", path);
+		//Log.d("fillMainMenuPath:", path);
 
 		String[] a = null;
 		if(path.equals(""))
@@ -512,9 +565,6 @@ public class SchoolAppListActivity extends Activity{
 			globalMenuNavList = findArrayListFromPath(a, globalArrayMenuList);
 		}
 
-
-		//printArrayMenuList(mArrayList);
-		//	Comparator n = new Comparator();
 		Collections.sort(globalMenuNavList, new Comparator<MenuObject>() {
 			public int compare(MenuObject o1, MenuObject o2) {
 				Integer a = (Integer)o1.getOrder();
@@ -522,46 +572,6 @@ public class SchoolAppListActivity extends Activity{
 				return a.compareTo(b); 
 			}
 		});
-
-		//	m_adapter = new OrderAdapter(this, R.layout.listobject, mArrayList);
-
-		//	setListAdapter(m_adapter);
-	}
-
-	private String getNotificationMenu() {
-		BufferedReader in = null;
-		String page = "";
-		String url = Constants.ROOT_SCHOOLAPP_URL + "app/notifications/";
-		url += Constants.ACTIVE_ID;
-
-		HttpClient client = new DefaultHttpClient();
-		client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "android");
-		HttpGet request = new HttpGet();
-		request.setHeader("Content-Type", "text/plain; charset=utf-8");
-		Log.d("URL: ",url);
-		try{
-			request.setURI(new URI(url));
-			HttpResponse response = client.execute(request);
-			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-			StringBuffer sb = new StringBuffer("");
-			String line = "";
-
-			String NL = System.getProperty("line.separator");
-			while ((line = in.readLine()) != null) 
-			{
-				sb.append(line + NL);
-			}
-
-			in.close();
-			page = sb.toString();
-			Log.d("page",page);
-
-		}
-		catch(Exception e){
-
-		}
-		return page;
 	}
 
 	public ArrayList<MenuObject> findArrayListFromPath(String[] pathArray, ArrayList<MenuObject> mList){
@@ -631,48 +641,11 @@ public class SchoolAppListActivity extends Activity{
 		}
 	}
 
-	private String getMainMenu() {
-		BufferedReader in = null;
-		String page = "";
-		String url = Constants.ROOT_SCHOOLAPP_URL + "app/menu/";
-		url += Constants.ACTIVE_ID;
-
-		HttpClient client = new DefaultHttpClient();
-		client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "android");
-		HttpGet request = new HttpGet();
-		request.setHeader("Content-Type", "text/plain; charset=utf-8");
-		Log.d("URL: ",url);
-		try{
-			request.setURI(new URI(url));
-			HttpResponse response = client.execute(request);
-			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-			StringBuffer sb = new StringBuffer("");
-			String line = "";
-
-			String NL = System.getProperty("line.separator");
-			while ((line = in.readLine()) != null) 
-			{
-				sb.append(line + NL);
-			}
-
-			in.close();
-			page = sb.toString();
-			Log.d("page",page);
-
-		}
-		catch(Exception e){
-
-		}
-		Log.d("getMainMenu",page);
-		return page;
-	}
-
 	public void returnResult(String result){
 
 	}
 
-	/*
+	/*			KEEP FOR COOKIE TRAIL UPDATE
 @Override
 protected void onListItemClick(ListView l, View v, int position, long id) {
 	super.onListItemClick(l, v, position, id);
@@ -686,12 +659,12 @@ protected void onListItemClick(ListView l, View v, int position, long id) {
 		Log.d("GetThisPath", o.getPath());
 
 		fillMainMenu(o.getPath());
-		//			cookieTrail.setText(cookieTrail.getText().toString()+" > "+ o.getTitle());
+		//cookieTrail.setText(cookieTrail.getText().toString()+" > "+ o.getTitle());
 
 		globalPath = o.getPath();
 		Log.d("GLobalPath:",globalPath);
 
-//		m_adapter.notifyDataSetChanged();
+		//m_adapter.notifyDataSetChanged();
 	}else{
 		Intent myIntent = new Intent(this, SchoolAppWebActivity.class);
 		if(isInNotificationList(o.getChannel())){
@@ -699,7 +672,7 @@ protected void onListItemClick(ListView l, View v, int position, long id) {
 		}
 
 		myIntent.putExtra("url", o.getLink());
-		//			myIntent.putExtra("cookieTrail", cookieTrail.getText().toString()+ " > "+ o.getTitle());
+		//myIntent.putExtra("cookieTrail", cookieTrail.getText().toString()+ " > "+ o.getTitle());
 		myIntent.putExtra("id", o.getChannel());
 		myIntent.putExtra("title", o.getTitle());
 		//myIntent.putExtra("pickupId", pickup.getId());
@@ -721,39 +694,6 @@ protected void onListItemClick(ListView l, View v, int position, long id) {
 		return false;
 	}
 
-	/*
-private class OrderAdapter extends ArrayAdapter<MenuObject> {
-
-	private ArrayList<MenuObject> items;
-
-	public OrderAdapter(Context context, int textViewResourceId, ArrayList<MenuObject> items) {
-		super(context, textViewResourceId, items);
-		this.items = items;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		int resId = 0;
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.listobject, null);
-		}
-		MenuObject o = items.get(position);
-		if (o != null) {
-
-			TextView title = (TextView) v.findViewById(R.id.listItemTitle);
-			title.setText(o.getTitle());
-
-			CheckBox checkBox = (CheckBox) v.findViewById(R.id.listItemCheckBox);
-			checkBox.setVisibility(View.GONE);
-
-		}
-		menuId = o.getId();
-		return v;
-	}
-}
-	 */
 
 	public void returnImageResult(String result) {
 		//TODO

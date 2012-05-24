@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="edulert">Edulert</string>
+    <string name="uCast">uCast</string>
     <string name="schoolname">Quakertown CSD</string>
     <string name="testImage">TestGrabImage</string>
     <string name="app_name">Quakertown</string>
@@ -20,13 +20,13 @@
     <string name="sendrobocall">Send Robo-Call</string>
     <string name="record">Record</string>
     <string name="stop">Stop</string>
-    <string name="broadcastrobocall">Broadcast Robo-Call</string>
+    <string name="broadcastrobocall">Tap to Broadcast</string>
     <string name="broadcastrecordvoicetitle">Record your voice for the Robo-Call</string>
     <string name="maxsixtyseconds">(Maximum 60 seconds)</string>
     <string name="password">Password:</string>
     <string name="username">Username:</string>
     <string name="updateapp">Update App</string>
-    <string name="aboutedulert">About Edulert</string>
+    <string name="aboutucast">About uCast</string>
     <string name="settings">Settings</string>
     <string name="phonenumber">Phone #:</string>
     <string name="phone">phone</string>
@@ -92,8 +92,11 @@
     <string name="arrowDescription">Arrow Button</string>
     <string name="clearDescription">Clear Button</string>
     <string name="rewindDescription">Rewind Button</string>
+    <string name="recordDescription">Record Button</string>
     <string name="playDescription">Play Button</string>
     <string name="stopDescription">Stop Button</string>
     <string name="pauseDescription">Pause Button</string>
+    <string name="microphone">Microphone</string>
+    
 
 </resources>
