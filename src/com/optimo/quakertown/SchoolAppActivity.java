@@ -42,7 +42,6 @@ public class SchoolAppActivity extends Activity {
 	private static final String NOTIFICATIONFILE = "AppNotificationFile";
 	private static final String APP_SUBSCRIPTION_LIST_FILE = "AppSubscriptionsListFile";
 
-
 	SchoolAppDBAdapter SchoolAppdbHelper;
 	private SchoolAppPhoneEmailDBAdapter dbHelperPhoneEmail;
 	private SchoolAppChannelDBAdapter dbHelperChannel;
