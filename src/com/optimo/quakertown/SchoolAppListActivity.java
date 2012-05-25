@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -44,6 +45,7 @@ import com.optimo.quakertown.constants.Constants;
 import com.optimo.quakertown.drawable.SchoolAppGradientDrawable;
 import com.optimo.quakertown.jsonObjectExtracter.JSONObjectExtracter;
 import com.optimo.quakertown.objects.AppSettingsObject;
+import com.optimo.quakertown.objects.MenuIdTitlePathObject;
 import com.optimo.quakertown.objects.MenuObject;
 import com.optimo.quakertown.objects.NotificationListObject;
 
@@ -55,6 +57,8 @@ public class SchoolAppListActivity extends Activity{
 
 	SharedPreferences.Editor editor;
 	SharedPreferences settings;
+	
+	Handler handler = new Handler();
 
 	//	private ListView lv = null;
 	private String selectedId;
@@ -66,7 +70,7 @@ public class SchoolAppListActivity extends Activity{
 
 	ArrayList<NotificationListObject> globalArrayNotificationList = null;
 
-	Stack<MenuObject> breadCrumb = new Stack<MenuObject>();
+	Stack<MenuIdTitlePathObject> breadCrumb = new Stack<MenuIdTitlePathObject>();
 	String pathTrail = null;
 	public String globalPath;
 	private String titleColor;
@@ -223,6 +227,19 @@ public class SchoolAppListActivity extends Activity{
 		generateBreadCrumbs();
 		fillMainMenu(globalPath);
 		updateMenuListUI();
+
+		/*
+		final Runnable r = new Runnable()
+		{
+		    public void run() 
+		    {
+				hScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+		        //handler.postDelayed(this, 1000);
+		    }
+		};
+
+		handler.postDelayed(r, 1000);
+		*/
 	}
 
 	private void generateBreadCrumbs(){
@@ -231,17 +248,17 @@ public class SchoolAppListActivity extends Activity{
 
 		//if(breadCrumb)
 		if(breadCrumb.empty()){
-			MenuObject homeMenuObject = new MenuObject();
+			MenuIdTitlePathObject homeMenuObject = new MenuIdTitlePathObject();
 			homeMenuObject.setTitle("Home"+"");
 			homeMenuObject.setPath("");
 			breadCrumb.push(homeMenuObject);
 		}
 		
-		Iterator<MenuObject> i = breadCrumb.iterator();
+		Iterator<MenuIdTitlePathObject> i = breadCrumb.iterator();
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
 
 		while(i.hasNext()){
-			MenuObject m = i.next();
+			MenuIdTitlePathObject m = i.next();
 			TextView t = new TextView(SchoolAppListActivity.this);
 			t.setLayoutParams(params);
 			t.setText(m.getTitle()+"");
@@ -289,14 +306,14 @@ public class SchoolAppListActivity extends Activity{
 		}
 		Log.d("LL getChildCount", ll.getChildCount()+"");
 		Log.d("breadCrumbSize", breadCrumb.size()+"");
-	//	hScrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+		hScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
 	}
 	
 	private int findLocationInBreadCrumbStack(String title){
-		Iterator<MenuObject> i = breadCrumb.iterator();
+		Iterator<MenuIdTitlePathObject> i = breadCrumb.iterator();
 		int location = 0;
 		while(i.hasNext()){
-			MenuObject m = i.next();
+			MenuIdTitlePathObject m = i.next();
 			if(title.equals(m.title))
 				return location;
 			location++;
@@ -393,7 +410,8 @@ public class SchoolAppListActivity extends Activity{
 
 							fillMainMenu(m.getPath());
 							//							breadCrumb.setText(breadCrumb.getText().toString()+" > "+ m.getTitle());
-							breadCrumb.push(m);
+							MenuIdTitlePathObject menuIdTitlePathObject = new MenuIdTitlePathObject(m);
+							breadCrumb.push(menuIdTitlePathObject);
 
 							globalPath = m.getPath();
 							generateUI();
@@ -467,7 +485,8 @@ public class SchoolAppListActivity extends Activity{
 
 							fillMainMenu(m.getPath());
 							//							breadCrumb.setText(breadCrumb.getText().toString()+" > "+ m.getTitle());
-							breadCrumb.push(m);
+							MenuIdTitlePathObject menuIdTitlePathObject = new MenuIdTitlePathObject(m);
+							breadCrumb.push(menuIdTitlePathObject);
 							globalPath = m.getPath();
 							Log.d("GLobalPath:",globalPath);
 							generateUI();
@@ -539,7 +558,22 @@ public class SchoolAppListActivity extends Activity{
 		// Save UI state changes to the savedInstanceState.
 		// This bundle will be passed to onCreate if the process is
 		// killed and restarted.
+		
+		//NOTE: Screen is created twice!  onSave -> onCreate -> onRestore -> onCreate....this is currently a bug
 		savedInstanceState.putString("globalPath", globalPath);
+		
+		MenuIdTitlePathObject[] breadCrumbArray = new MenuIdTitlePathObject[breadCrumb.size()];
+		Log.d("breadCrumb",breadCrumb.size()+"");
+		int i = 0;
+		Iterator<MenuIdTitlePathObject> inter = breadCrumb.iterator();
+		while(inter.hasNext()){
+			MenuIdTitlePathObject m = inter.next();
+			breadCrumbArray[i] = m;
+			i++;
+		}
+		if(breadCrumb.isEmpty())
+		Log.d("breadCrumb","EMPTY!");
+		savedInstanceState.putParcelableArray("breadCrumb", breadCrumbArray);
 
 		super.onSaveInstanceState(savedInstanceState);
 	}
@@ -550,7 +584,21 @@ public class SchoolAppListActivity extends Activity{
 		// Restore UI state from the savedInstanceState.
 		// This bundle has also been passed to onCreate.
 		globalPath = savedInstanceState.getString("globalPath");
-
+		MenuIdTitlePathObject[] breadCrumbArray = (MenuIdTitlePathObject[]) savedInstanceState.getParcelableArray("breadCrumb");
+		Log.d("breadCrumbArray",breadCrumbArray.length+"");
+		
+		//Skip over Home
+		//Keep i = 1
+		int i = 1;
+	
+		breadCrumb.empty();
+		
+		while(i<breadCrumbArray.length){
+			breadCrumb.push(breadCrumbArray[i]);
+			i++;
+		}
+		Log.d("breadCrumb",breadCrumb.size()+"");
+		
 	}
 
 	private void fillMainMenu(String path){

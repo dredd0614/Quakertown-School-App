@@ -116,8 +116,6 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 		mic = (ImageView) findViewById(R.id.microphone);
 		mic_bright = (ImageView) findViewById(R.id.microphone_bright);
 
-		sAUMTA = this;
-
 		Bundle extras = getIntent().getExtras();
 		token = extras.getString("token");
 		schoolId = extras.getString("schoolId");
@@ -159,8 +157,6 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				}
 			}
 		});
-		//		recordbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
 
 		stopbutton = (ImageButton) findViewById(R.id.stopbutton);
 		stopbutton.setOnClickListener(new OnClickListener(){
@@ -173,21 +169,6 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 		});
 		stopbutton.setVisibility(View.GONE);
 
-		//		stopbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
-		/*
-		stopimagebutton = (ImageButton) findViewById(R.id.stopimagebutton);
-		stopimagebutton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				swapPlayStopImageButtons();
-				myChronometer.stop();
-				mp.stop();
-			}
-		});
-		stopimagebutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-		stopimagebutton.setVisibility(View.GONE);
-		 */
 
 		rewindbutton = (ImageButton) findViewById(R.id.rewindbutton);
 		rewindbutton.setOnClickListener(new OnClickListener(){
@@ -206,8 +187,6 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 				}
 			}
 		});
-		//		rewindbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
 
 		playbutton = (ImageButton) findViewById(R.id.playbutton);
 		playbutton.setOnClickListener(new OnClickListener(){
@@ -238,23 +217,6 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 		playbutton.setVisibility(View.VISIBLE);
 
 		//		playbutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-
-		/*
-		pausebutton = (ImageButton) findViewById(R.id.pausebutton);
-		pausebutton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				if(mp.isPlaying()){
-					if(mp.isPlaying()){
-						mp.pause();
-						myChronometer.stop();
-						paused = true;
-					}
-				}
-			}
-		});
-		pausebutton.setBackgroundDrawable(SchoolAppGradientDrawable.generateStateListDrawable(titleColor));
-		 */
 
 		broadcastbutton = (Button) findViewById(R.id.broadcastbutton);
 		broadcastbutton.setOnClickListener(new OnClickListener(){
@@ -292,7 +254,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 	public void startRecording() throws IOException {
 
 		isRecording=true;
-		swapRecordStopButtons();
+		brightenRecordButton();
 		recordAmplitude = new RecordAmplitude();
 		recordAmplitude.execute();
 		String fileName = "SchoolApp-"
@@ -339,7 +301,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 	public void stopRecording() {
 		recordAmplitude.cancel(true);
 		isRecording=false;
-		swapRecordStopButtons();
+		brightenRecordButton();
 		swapPlayStopImageButtons();
 		//Let the amp tracker kill itself
 		try {
@@ -431,7 +393,7 @@ public class SchoolAppBroadCastRecordVoiceActivity extends Activity implements O
 		return bytes;
 	}
 
-	private void swapRecordStopButtons(){
+	private void brightenRecordButton(){
 
 		swapPlayStopImageButtons();
 		

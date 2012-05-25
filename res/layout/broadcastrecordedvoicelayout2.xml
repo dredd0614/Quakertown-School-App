@@ -49,8 +49,8 @@
             android:text="Amp"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:textStyle="bold" 
-            android:visibility="gone"/>
+            android:textStyle="bold"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -106,7 +106,50 @@
             android:text="@string/broadcastrobocall"
             android:textColor="@color/white"
             android:textSize="24dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/recordingbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/actionbuttonholder"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/redbar"
+            android:padding="5dp"
+            android:text="@string/recordingrobocall"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/readybutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/actionbuttonholder"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/graybar"
+            android:padding="5dp"
+            android:text="@string/playingrecordedrobocall"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/playingrecordingbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/actionbuttonholder"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bluebar"
+            android:padding="5dp"
+            android:text="@string/playingrecording"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/actionbuttonholder"

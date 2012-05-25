@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.optimo.quakertown.asynctasks.AsyncTaskLoginGetNotificationUserChannelList;
 import com.optimo.quakertown.colors.ColorFixer;
 import com.optimo.quakertown.drawable.SchoolAppGradientDrawable;
 import com.optimo.quakertown.jsonObjectExtracter.JSONObjectExtracter;

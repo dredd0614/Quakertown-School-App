@@ -20,7 +20,6 @@
     <string name="sendrobocall">Send Robo-Call</string>
     <string name="record">Record</string>
     <string name="stop">Stop</string>
-    <string name="broadcastrobocall">Tap to Broadcast</string>
     <string name="broadcastrecordvoicetitle">Record your voice for the Robo-Call</string>
     <string name="maxsixtyseconds">(Maximum 60 seconds)</string>
     <string name="password">Password:</string>
@@ -45,6 +44,10 @@
     <string name="returnemailtitle">Return Email Setting</string>
     <string name="change">Change</string>
     <string name="setnullreturnemail">Set "No Return Email"</string>
+    <string name="playingrecordedrobocall">Ready to Record</string>
+    <string name="broadcastrobocall">Tap to Broadcast</string>
+    <string name="playingrecording">Playing Recording</string>
+    <string name="recordingrobocall">Recording</string>
 
     <!-- Notifications -->
 
@@ -97,6 +100,5 @@
     <string name="stopDescription">Stop Button</string>
     <string name="pauseDescription">Pause Button</string>
     <string name="microphone">Microphone</string>
-    
 
 </resources>
